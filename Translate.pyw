@@ -22,7 +22,7 @@ except ImportError:
 
 window = TkinterDnD.Tk()
 window.iconbitmap(os.path.abspath('./copy.ico'))
-window.title('Translate')
+window.title('Translate 1.0')
 window.grid_rowconfigure(5, weight=1, minsize=100)
 window.grid_columnconfigure(2, weight=1, minsize=90)
 window.grid_columnconfigure(3, weight=1, minsize=100)
@@ -136,13 +136,13 @@ def drop_file():
 
             try:
                 convert_file(file)
-                filesmessage = filesmessage + 'SUCCESS: ' + file.split(".")[0] + '-converted' + ext2 + "\n"
+                filesmessage = filesmessage + 'Success: ' + file.split(".")[0] + '-converted' + ext2 + '\n\n'
             except UnicodeDecodeError:
-                filesmessage = filesmessage + 'FAILED: ' + file +"\n"
+                filesmessage = filesmessage + 'Fail: ' + file + '\n\n'
 
-        messagebox.showinfo("Translate Complete",  filesmessage)
+        messagebox.showinfo('Translate Complete',  filesmessage)
         listbox1.delete(0,tk.END)
-        pb1["value"] = 0
+        pb1['value'] = 0
         pb1.grid_remove()
 
     else:
@@ -169,7 +169,7 @@ drop1 = ttk.Combobox(window,textvariable=dropvar1,values=dropval1,state='readonl
 
 
 # output dropdown and label
-label2 = Label(text="Output format:",font=("Arial",10)).grid(column=3,columnspan=2,row=0,sticky='W',padx=10,pady=10)
+label2 = Label(text='Output format:',font=('Arial',10)).grid(column=3,columnspan=2,row=0,sticky='W',padx=10,pady=10)
 
 dropvar2 = StringVar()
 dropvar2.set('Pipe')
@@ -184,7 +184,7 @@ labelarrow = tk.Label(window, image=arrowimg).grid(column=2,row=0,rowspan=2,stic
 labelex = Label(text='',font=('Arial',10)).grid(column=0,row=3,pady=10)
 
 # files label and add (open dialog window) and remove (remove files from list) buttons
-label4 = Label(text="Files(s):",font=("Arial",10)).grid(column=0,columnspan=2,row=4,sticky='W',pady=10,padx=10)
+label4 = Label(text='Files(s):',font=('Arial',10)).grid(column=0,columnspan=2,row=4,sticky='W',pady=10,padx=10)
 addimg = tk.PhotoImage(file=os.path.abspath('./add.png'))
 button1 = tk.Button(window, image=addimg, border=0, command=select_file, cursor='hand2').grid(column=2,row=4,sticky='W',padx=10)
 removeimg = tk.PhotoImage(file=os.path.abspath('./remove.png'))
@@ -192,15 +192,15 @@ button3 = tk.Button(window, image=removeimg, border=0, command=remove_file, curs
 
 
 # listbox and scrollbar
-listbox1 = Listbox(window,
-                    selectmode='extended', width=1, height=1, font=("Arial",9))
-listbox1.grid(row=5, column=0, columnspan=5, padx=10, pady=5, sticky='news')
+listbox1 = Listbox(window, selectmode='extended', width=1, height=1, font=('Arial',9))
+listbox1.grid(row=5, column=0, columnspan=5, padx=10, pady=5, sticky='NEWS')
 scrollbar = Scrollbar(window, orient='vertical')
-scrollbar.grid(column=4,row=5,sticky='N'+'S'+'E',padx=10)
+scrollbar.grid(column=4,row=5,sticky='N'+'S'+'E',padx=10,pady=5)
 scrollbar.config( command = listbox1.yview )
+listbox1.configure(yscrollcommand=scrollbar.set)
 
 # file ext dropdown and label
-label3 = Label(text="File ending:",font=("Arial",10)).grid(column=3, row=7,sticky='E',pady=10)
+label3 = Label(text='File ending:',font=('Arial',10)).grid(column=3, row=7,sticky='E',pady=10)
 
 dropvar3 = StringVar()
 dropvar3.set('*.txt')
@@ -221,10 +221,10 @@ pb1 = ttk.Progressbar(window, orient='horizontal',mode='determinate')
 pb1.grid(column=4,row=9,pady=10)
 pb1.grid_remove()
 
-label6 = Label(text="© 2018 Parry Pardun",font=("Arial",8)).grid(column=0,columnspan=2,row=9,sticky='W'+'S')
+label6 = Label(text='© 2018 Parry Pardun',font=('Arial',8)).grid(column=0,columnspan=2,row=9,sticky='W'+'S')
 
 #extra label with same padding/size as progress bar to prevent window from changing with its reappearance
-label7 = Label(text="",font=("Arial",10)).grid(column=2,row=9,pady=10)
+label7 = Label(text='',font=('Arial',10)).grid(column=2,row=9,pady=10)
 
 # tkinterDnD functions 
 def drop(event):
