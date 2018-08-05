@@ -1,2 +1,13 @@
 # translate
-file delimiter translator/converter with GUI supporting drag and drop
+translate/convert file delimiter formats (tsv/csv/psv) with GUI supporting drag and drop
+
+download latest release: https://github.com/pjpardun/translate/releases/tag/release-1.0
+
+built in Python 3.6.4
+requires TKinter extension TKinterDnD (tkDnD2.8) and TKinterDnD Python wrapper (TKinterDnD2)
+
+tkDnD2.8 available at: https://sourceforge.net/projects/tkdnd/
+    copy to \Tcl directory
+
+TKinterDnD2 Python wrapper available at: https://sourceforge.net/projects/tkinterdnd/
+    copy to \Lib\site-packages directory
