@@ -22,42 +22,42 @@ except ImportError:
 
 window = TkinterDnD.Tk()
 window.iconbitmap(os.path.abspath('./copy.ico'))
-window.title('Translate 1.0')
+window.title('Translate 2.0')
 window.grid_rowconfigure(5, weight=1, minsize=100)
 window.grid_columnconfigure(2, weight=1, minsize=90)
 window.grid_columnconfigure(3, weight=1, minsize=100)
 window.resizable(0,0)
 
 
-# functions
+#functions
 def convert_file(inputfile):
-    varget1 = dropvar1.get()
-    varget2 = dropvar2.get()
-    varget3 = dropvar3.get()
+    getinput = inputcombovar.get()
+    getoutput = outputcombovar.get()
+    getformat = formatcombovar.get()
 
-    if varget1 == 'Comma':
+    if getinput == 'Comma':
         stext = ','
-    elif varget1 == 'Pipe':
+    elif getinput == 'Pipe':
         stext = '|'
-    elif varget1 == 'Tab':
+    elif getinput == 'Tab':
         stext = '\t'
     else:
         stext = '\t'
 
-    if varget2 == 'Comma':
+    if getoutput == 'Comma':
         rtext = ','
         ext = '.csv'
-    elif varget2 == 'Pipe':
+    elif getoutput == 'Pipe':
         rtext = '|'
         ext = '.psv'
-    elif varget2 == 'Tab':
+    elif getoutput == 'Tab':
         rtext = '\t'
         ext = '.tsv'
     else:
         rtext = '\t'
         ext = '.txt'
 
-    if varget3 == '*.txt':
+    if getformat == '*.txt':
         ext2 = '.txt'
     else:
         ext2 = ext
@@ -91,13 +91,13 @@ def select_file():
     if files:
         filelist = root.tk.splitlist(files)
         for file in filelist:
-            listbox1.insert(END,file)
+            filelistbox.insert(END,file)
     else:
         return None 
 
 
 def drop_file():
-    files = listbox1.get(0,tk.END)
+    files = filelistbox.get(0,tk.END)
     if files:
         filelist = window.tk.splitlist(files)
         filesmessage = ''
@@ -105,8 +105,8 @@ def drop_file():
         sizetotal = 0
         runningtotal = 0 
 
-        varget2 = dropvar2.get() 
-        varget3 = dropvar3.get()
+        getoutput = outputcombovar.get() 
+        getformat = formatcombovar.get()
 
         for file in filelist:
             filesize = os.path.getsize(file)
@@ -116,20 +116,20 @@ def drop_file():
             filesize = os.path.getsize(file)
             runningtotal = runningtotal + filesize
             percentage = runningtotal/sizetotal * 100
-            pb1.grid(column=4,row=9,pady=10)
-            pb1["value"] = percentage
-            pb1.update()
+            pb.grid(column=4,row=9,pady=10)
+            pb["value"] = percentage
+            pb.update()
 
-            if varget2 == 'Comma':
+            if getoutput == 'Comma':
                 ext = '.csv'
-            elif varget2 == 'Pipe':
+            elif getoutput == 'Pipe':
                 ext = '.psv'
-            elif varget2 == 'Tab':
+            elif getoutput == 'Tab':
                 ext = '.tsv'
             else:
                 ext = '.txt'
 
-            if varget3 == '*.txt':
+            if getformat == '*.txt':
                 ext2 = '.txt'
             else:
                 ext2 = ext
@@ -141,131 +141,116 @@ def drop_file():
                 filesmessage = filesmessage + 'Fail: ' + file + '\n\n'
 
         messagebox.showinfo('Translate Complete',  filesmessage)
-        listbox1.delete(0,tk.END)
-        pb1['value'] = 0
-        pb1.grid_remove()
+        filelistbox.delete(0,tk.END)
+        pb['value'] = 0
+        pb.grid_remove()
 
     else:
         return None
 
+
 def remove_file():
-    files = listbox1.curselection()
+    files = filelistbox.curselection()
     for index in files[::-1]:  
-        listbox1.delete(index)
+        filelistbox.delete(index)
 
 
-# tkinter widgets
-# format combobox dropdown font
+#GUI widgets
+#format combobox dropdown font
 window.option_add('*TCombobox*Listbox.font', ('Arial','10'))
 
-# input dropdown and label
-label1 = Label(text="Input format:",font=("Arial",10)).grid(column=0,columnspan=2,row=0,sticky='W',padx=10,pady=10)
+#input dropdown and label
+Label(text="Input format:",font=("Arial",10)).grid(column=0,columnspan=2,row=0,sticky='W',padx=10,pady=10)
+inputcombovar = StringVar()
+inputcombovar.set('Tab')
+combovals = ['Comma', 'Pipe', 'Tab']
+ttk.Combobox(window,textvariable=inputcombovar,values=combovals,state='readonly',font=('Arial','10')).grid(column=0,columnspan=2,row=1,padx=10)
 
-dropvar1 = StringVar()
-dropvar1.set('Tab')
-dropval1 = ['Comma', 'Pipe', 'Tab']
+#output dropdown and label
+Label(text='Output format:',font=('Arial',10)).grid(column=3,columnspan=2,row=0,sticky='W',padx=10,pady=10)
+outputcombovar = StringVar()
+outputcombovar.set('Pipe')
+ttk.Combobox(window,textvariable=outputcombovar,values=combovals,state='readonly',font=('Arial','10')).grid(column=3,columnspan=2,row=1,sticky='W',padx=10)
 
-drop1 = ttk.Combobox(window,textvariable=dropvar1,values=dropval1,state='readonly',font=('Arial','10')).grid(column=0,columnspan=2,row=1,padx=10)
-
-
-# output dropdown and label
-label2 = Label(text='Output format:',font=('Arial',10)).grid(column=3,columnspan=2,row=0,sticky='W',padx=10,pady=10)
-
-dropvar2 = StringVar()
-dropvar2.set('Pipe')
-
-drop2 = ttk.Combobox(window,textvariable=dropvar2,values=dropval1,state='readonly',font=('Arial','10')).grid(column=3,columnspan=2,row=1,sticky='W',padx=10)
-
-# arrow image
+#arrow image
 arrowimg = tk.PhotoImage(file=os.path.abspath('./arrow.png'))
-labelarrow = tk.Label(window, image=arrowimg).grid(column=2,row=0,rowspan=2,sticky='S',padx=10)
+tk.Label(window, image=arrowimg).grid(column=2,row=0,rowspan=2,sticky='S',padx=10)
 
 #extra label to pad spacing
-labelex = Label(text='',font=('Arial',10)).grid(column=0,row=3,pady=10)
+Label(text='',font=('Arial',10)).grid(column=0,row=3,pady=10)
 
-# files label and add (open dialog window) and remove (remove files from list) buttons
-label4 = Label(text='Files(s):',font=('Arial',10)).grid(column=0,columnspan=2,row=4,sticky='W',pady=10,padx=10)
+#files label and add (open dialog window) and remove (remove files from list) buttons
+Label(text='File(s):',font=('Arial',10)).grid(column=0,columnspan=2,row=4,sticky='W',pady=10,padx=10)
 addimg = tk.PhotoImage(file=os.path.abspath('./add.png'))
-button1 = tk.Button(window, image=addimg, border=0, command=select_file, cursor='hand2').grid(column=2,row=4,sticky='W',padx=10)
+tk.Button(window, image=addimg, border=0, command=select_file, cursor='hand2').grid(column=2,row=4,sticky='W',padx=10)
 removeimg = tk.PhotoImage(file=os.path.abspath('./remove.png'))
-button3 = tk.Button(window, image=removeimg, border=0, command=remove_file, cursor='hand2').grid(column=2,row=4,sticky='E')
+tk.Button(window, image=removeimg, border=0, command=remove_file, cursor='hand2').grid(column=2,row=4,sticky='E')
 
-
-# listbox and scrollbar
-listbox1 = Listbox(window, selectmode='extended', width=1, height=1, font=('Arial',9))
-listbox1.grid(row=5, column=0, columnspan=5, padx=10, pady=5, sticky='NEWS')
+#listbox and scrollbar
+filelistbox = Listbox(window, selectmode='extended', width=1, height=1, font=('Arial',9))
+filelistbox.grid(row=5, column=0, columnspan=5, padx=10, pady=5, sticky='NEWS')
 scrollbar = Scrollbar(window, orient='vertical')
 scrollbar.grid(column=4,row=5,sticky='N'+'S'+'E',padx=10,pady=5)
-scrollbar.config( command = listbox1.yview )
-listbox1.configure(yscrollcommand=scrollbar.set)
+scrollbar.config( command = filelistbox.yview )
+filelistbox.configure(yscrollcommand=scrollbar.set)
 
-# file ext dropdown and label
-label3 = Label(text='File ending:',font=('Arial',10)).grid(column=3, row=7,sticky='E',pady=10)
+#file extension dropdown and label
+Label(text='File ending:',font=('Arial',10)).grid(column=3, row=7,sticky='E',pady=10)
+formatcombovar = StringVar()
+formatcombovar.set('*.txt')
+formatcomboval = ['Default', '*.txt']
+ttk.Combobox(window,textvariable=formatcombovar,values=formatcomboval,state='readonly',width=7,font=('Arial','10')).grid(column=3,row=8,sticky='E')
 
-dropvar3 = StringVar()
-dropvar3.set('*.txt')
-dropval3 = ['Default', '*.txt']
-
-drop3 = ttk.Combobox(window,textvariable=dropvar3,values=dropval3,state='readonly',width=7,font=('Arial','10')).grid(column=3,row=8,sticky='E')
-
-
-# Translate button
-# button style
+#translate button
 buttonstyle = ttk.Style()
 buttonstyle.configure('TButton', font=('Arial', 10))
-button2 = ttk.Button(text="Translate file(s)", style='TButton', command=drop_file, cursor='hand2').grid(column=4,row=8,sticky='W',padx=10)
+ttk.Button(text="Translate file(s)", style='TButton', command=drop_file, cursor='hand2').grid(column=4,row=8,sticky='W',padx=10)
 
-
-# progress bar
-pb1 = ttk.Progressbar(window, orient='horizontal',mode='determinate')
-pb1.grid(column=4,row=9,pady=10)
-pb1.grid_remove()
-
-label6 = Label(text='© 2018 Parry Pardun',font=('Arial',8)).grid(column=0,columnspan=2,row=9,sticky='W'+'S')
+#progress bar
+pb = ttk.Progressbar(window, orient='horizontal',mode='determinate')
+pb.grid(column=4,row=9,pady=10)
+pb.grid_remove()
 
 #extra label with same padding/size as progress bar to prevent window from changing with its reappearance
-label7 = Label(text='',font=('Arial',10)).grid(column=2,row=9,pady=10)
+Label(text='',font=('Arial',10)).grid(column=2,row=9,pady=10)
+Label(text='© 2019 Parry Pardun',font=('Arial',8)).grid(column=0,columnspan=2,row=9,sticky='W'+'S')
 
-# tkinterDnD functions 
+#tkinterDnD functions 
 def drop(event):
     if event.data:
-        if event.widget == listbox1:
-            # event.data is a list of filenames as one string;
-            files = listbox1.tk.splitlist(event.data)
-            fileslist = listbox1.get(0,tk.END)
+        if event.widget == filelistbox:
+            #event.data is a list of filenames as one string;
+            files = filelistbox.tk.splitlist(event.data)
+            fileslist = filelistbox.get(0,tk.END)
             for f in files:
                 if f not in fileslist:
                     if os.path.exists(f):
-                        listbox1.insert('end', f)
+                        filelistbox.insert('end', f)
     return event.action
 
-# make the Listbox drop targets
-listbox1.drop_target_register(DND_FILES, DND_TEXT)
+#make the listbox drop targets
+filelistbox.drop_target_register(DND_FILES, DND_TEXT)
 
-
-for widget in (listbox1,):
+for widget in (filelistbox,):
     widget.dnd_bind('<<Drop>>', drop)
 
-
-# define drag callbacks
+#define drag callbacks
 def drag_init_listbox(event):
-    # use a tuple as file list
+    #use a tuple as file list
     data = ()
-    if listbox1.curselection():
-        data = tuple([listbox.get(i) for i in listbox1.curselection()])
-    # tuples can also be used to specify possible alternatives for
-    # action type and DnD type:
+    if filelistbox.curselection():
+        data = tuple([listbox.get(i) for i in filelistbox.curselection()])
+    #tuples can also be used to specify possible alternatives for
+    #action type and DnD type:
     return ((ASK, COPY), (DND_FILES, DND_TEXT), data)
 
-
-
-# finally make the widgets a drag source
-listbox1.drag_source_register(1, DND_TEXT, DND_FILES)
-listbox1.dnd_bind('<<DragInitCmd>>', drag_init_listbox)
+#finally make the widgets a drag source
+filelistbox.drag_source_register(1, DND_TEXT, DND_FILES)
+filelistbox.dnd_bind('<<DragInitCmd>>', drag_init_listbox)
 
 
 window.update_idletasks()
+
 window.deiconify()
+
 window.mainloop()
-
-
