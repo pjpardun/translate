@@ -1,13 +1,36 @@
-# translate
-translate/convert file delimiter formats (tsv/csv/psv) with GUI supporting drag and drop
+# Translate
 
-download latest release: https://github.com/pjpardun/translate/releases
+## About
+A small desktop application to translate/convert file delimiter formats (tsv/csv/psv) from file batches with GUI supporting file drag and drop.
 
-built in Python 3.6.4
-requires TKinter extension TKinterDnD (tkDnD2.8) and TKinterDnD Python wrapper (TKinterDnD2)
+![GUI example image.](https://github.com/pjpardun/translate/blob/master/Translate%20GUI%20image.png)
 
-tkDnD2.8 available at: https://sourceforge.net/projects/tkdnd/
-    copy to \Tcl directory
+## Features
+- Translates file delimiters in file batches
+- Supports tab separated, comma separated, and pipe separated delimiters
+- Uses GUI supporting file manipulation, selection of delimiters and file endings, progress bar
 
-TKinterDnD2 Python wrapper available at: https://sourceforge.net/projects/tkinterdnd/
-    copy to \Lib\site-packages directory
+## Installation
+Latest release (for users): 
+```
+https://github.com/pjpardun/translate/releases
+```
+Clone (for developers):
+```
+https://github.com/pjpardun/translate
+```
+
+## Requirements 
+- Python (tested on version >= 3.6.4)
+
+- Tkinter extension TkinterDnD2 (tested on version >= 2.8)
+    - tkDnD2.8 (copy to \Tcl directory)
+    ```
+    https://sourceforge.net/projects/tkdnd
+    ```
+    - TKinterDnD2 Python wrapper (copy to \Lib\site-packages directory)
+    ```
+    https://sourceforge.net/projects/tkinterdnd
+    ```
+# License
+MIT License
