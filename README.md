@@ -32,5 +32,5 @@ https://github.com/pjpardun/translate
     ```
     https://sourceforge.net/projects/tkinterdnd
     ```
-# License
+## License
 MIT License
