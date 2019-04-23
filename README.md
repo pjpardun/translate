@@ -3,6 +3,8 @@
 ## About
 A small desktop application to translate/convert file delimiter formats (tsv/csv/psv) from file batches with GUI supporting file drag and drop.
 
+This project was built to fill a software gap at my place of employment.
+
 ![GUI example image.](https://github.com/pjpardun/translate/blob/master/Translate%20GUI%20image.png)
 
 ## Features
